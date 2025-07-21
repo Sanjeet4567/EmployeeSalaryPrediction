@@ -1,0 +1,6 @@
+logs
+venv3
+__pycache__
+*.pyc
+*.pyo
+*.pyd

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Salary Prediction Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .form-container {
+      max-width: 700px;
+      margin: auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="form-container">
+
+      <!-- Prediction result shown here at the top -->
+      {% if final_result %}
+      <div class="alert alert-info text-center mb-4" role="alert" style="font-size: 1.25rem;">
+        Employee Salary: <strong>{{ final_result }}</strong>
+      </div>
+      {% endif %}
+
+      <h2 class="text-center mb-4">Employee Salary Prediction Form</h2>
+      <form action="{{ url_for('predict_datapoint') }}" method="POST">
+        <!-- Numerical fields -->
+        <div class="mb-3">
+          <label class="form-label" for="age">Age</label>
+          <input type="number" class="form-control" id="age" name="age" placeholder="Enter Age">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="fnlwgt">Fnlwgt</label>
+          <input type="number" class="form-control" id="fnlwgt" name="fnlwgt" placeholder="Enter Fnlwgt">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="educational_num">Educational Num</label>
+          <input type="number" class="form-control" id="educational_num" name="educational_num" placeholder="Enter Educational Num">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="capital_gain">Capital Gain</label>
+          <input type="number" class="form-control" id="capital_gain" name="capital_gain" placeholder="Enter Capital Gain">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="capital_loss">Capital Loss</label>
+          <input type="number" class="form-control" id="capital_loss" name="capital_loss" placeholder="Enter Capital Loss">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="hours_per_week">Hours Per Week</label>
+          <input type="number" class="form-control" id="hours_per_week" name="hours_per_week" placeholder="Enter Hours Per Week">
+        </div>
+        <!-- Categorical fields -->
+        <div class="mb-3">
+          <label class="form-label" for="workclass">Workclass</label>
+          <select class="form-select" id="workclass" name="workclass">
+            <option value="Private">Private</option>
+            <option value="Local-gov">Local-gov</option>
+            <option value="Others">Others</option>
+            <option value="Self-emp-not-inc">Self-emp-not-inc</option>
+            <option value="Federal-gov">Federal-gov</option>
+            <option value="State-gov">State-gov</option>
+            <option value="Self-emp-inc">Self-emp-inc</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="education">Education</label>
+          <select class="form-select" id="education" name="education">
+            <option value="11th">11th</option>
+            <option value="HS-grad">HS-grad</option>
+            <option value="Assoc-acdm">Assoc-acdm</option>
+            <option value="Some-college">Some-college</option>
+            <option value="10th">10th</option>
+            <option value="Prof-school">Prof-school</option>
+            <option value="Bachelors">Bachelors</option>
+            <option value="Masters">Masters</option>
+            <option value="Doctorate">Doctorate</option>
+            <option value="Assoc-voc">Assoc-voc</option>
+            <option value="9th">9th</option>
+            <option value="12th">12th</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="marital_status">Marital Status</label>
+          <select class="form-select" id="marital_status" name="marital_status">
+            <option value="Never-married">Never-married</option>
+            <option value="Married-civ-spouse">Married-civ-spouse</option>
+            <option value="Widowed">Widowed</option>
+            <option value="Separated">Separated</option>
+            <option value="Divorced">Divorced</option>
+            <option value="Married-spouse-absent">Married-spouse-absent</option>
+            <option value="Married-AF-spouse">Married-AF-spouse</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="occupation">Occupation</label>
+          <select class="form-select" id="occupation" name="occupation">
+            <option value="Machine-op-inspct">Machine-op-inspct</option>
+            <option value="Farming-fishing">Farming-fishing</option>
+            <option value="Protective-serv">Protective-serv</option>
+            <option value="Others">Others</option>
+            <option value="Other-service">Other-service</option>
+            <option value="Prof-specialty">Prof-specialty</option>
+            <option value="Adm-clerical">Adm-clerical</option>
+            <option value="Exec-managerial">Exec-managerial</option>
+            <option value="Tech-support">Tech-support</option>
+            <option value="Craft-repair">Craft-repair</option>
+            <option value="Sales">Sales</option>
+            <option value="Transport-moving">Transport-moving</option>
+            <option value="Priv-house-serv">Priv-house-serv</option>
+            <option value="Handlers-cleaners">Handlers-cleaners</option>
+            <option value="Armed-Forces">Armed-Forces</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="relationship">Relationship</label>
+          <select class="form-select" id="relationship" name="relationship">
+            <option value="Own-child">Own-child</option>
+            <option value="Husband">Husband</option>
+            <option value="Not-in-family">Not-in-family</option>
+            <option value="Unmarried">Unmarried</option>
+            <option value="Wife">Wife</option>
+            <option value="Other-relative">Other-relative</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="race">Race</label>
+          <select class="form-select" id="race" name="race">
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Asian-Pac-Islander">Asian-Pac-Islander</option>
+            <option value="Other">Other</option>
+            <option value="Amer-Indian-Eskimo">Amer-Indian-Eskimo</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="gender">Gender</label>
+          <select class="form-select" id="gender" name="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="native_country">Native Country</label>
+          <select class="form-select" id="native_country" name="native_country">
+            <option value="United-States">United-States</option>
+            <option value="Others">Others</option>
+            <option value="Peru">Peru</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Dominican-Republic">Dominican-Republic</option>
+            <option value="Ireland">Ireland</option>
+            <option value="Germany">Germany</option>
+            <option value="Philippines">Philippines</option>
+            <option value="Thailand">Thailand</option>
+            <option value="Haiti">Haiti</option>
+            <option value="El-Salvador">El-Salvador</option>
+            <option value="Puerto-Rico">Puerto-Rico</option>
+            <option value="Vietnam">Vietnam</option>
+            <option value="South">South</option>
+            <option value="Columbia">Columbia</option>
+            <option value="Japan">Japan</option>
+            <option value="India">India</option>
+            <option value="Cambodia">Cambodia</option>
+            <option value="Poland">Poland</option>
+            <option value="England">England</option>
+            <option value="Cuba">Cuba</option>
+            <option value="Taiwan">Taiwan</option>
+            <option value="Italy">Italy</option>
+            <option value="Canada">Canada</option>
+            <option value="China">China</option>
+            <option value="Nicaragua">Nicaragua</option>
+            <option value="Honduras">Honduras</option>
+            <option value="Iran">Iran</option>
+            <option value="Guatemala">Guatemala</option>
+            <option value="Scotland">Scotland</option>
+            <option value="Jamaica">Jamaica</option>
+            <option value="Portugal">Portugal</option>
+            <option value="Ecuador">Ecuador</option>
+            <option value="Yugoslavia">Yugoslavia</option>
+            <option value="Hungary">Hungary</option>
+            <option value="Hong">Hong</option>
+            <option value="Greece">Greece</option>
+            <option value="Trinadad&Tobago">Trinadad&Tobago</option>
+            <option value="Outlying-US(Guam-USVI-etc)">Outlying-US(Guam-USVI-etc)</option>
+            <option value="France">France</option>
+            <option value="Laos">Laos</option>
+            <option value="Holand-Netherlands">Holand-Netherlands</option>
+          </select>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success">Predict</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

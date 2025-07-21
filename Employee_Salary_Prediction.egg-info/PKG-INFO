@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: Employee-Salary-Prediction
+Version: 0.0.1
+Author: Sanjeet
+Author-email: sanjee40404@gmail.com
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: seaborn
+Requires-Dist: flask
+Requires-Dist: scikit-learn
+Requires-Dist: xgboost
+Dynamic: author
+Dynamic: author-email
+Dynamic: license-file
+Dynamic: requires-dist
