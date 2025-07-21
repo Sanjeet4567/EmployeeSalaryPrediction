@@ -2,6 +2,9 @@
 
 This project is an **Employee Salary Prediction App** built using **Flask** and a machine learning model. The app predicts the salary category of an employee based on user inputs such as age, education, occupation, hours worked per week, and more.
 
+## Live Deployement Link :
+   https://employeesalaryprediction-bzn4.onrender.com
+
 ## Features
 - **Interactive Web Interface**: Built using **Flask** to allow users to input employee data and receive salary predictions.
 - **Salary Category Prediction**: Predicts the salary category (e.g., >50K or <=50K) based on user-provided data.
